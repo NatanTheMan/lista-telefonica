@@ -1,5 +1,7 @@
 <?php
 
+include './verifyInputs.php';
+
 session_start();
 
 if (!isset($_SESSION['phone_book'])) {
@@ -15,26 +17,7 @@ $name = filter_input(INPUT_POST, 'name', FILTER_SANITIZE_SPECIAL_CHARS);
 $email = filter_input(INPUT_POST, 'email', FILTER_VALIDATE_EMAIL, FILTER_SANITIZE_EMAIL);
 $phone = filter_input(INPUT_POST, 'phone', FILTER_SANITIZE_NUMBER_INT);
 
-$errors = [];
-
-if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-    $errors[] = 'E-mail inválido.';
-} else {
-    foreach ($_SESSION['phone_book'] as $i) {
-        if ($email === $i['email']) {
-            echo  'E-mail já cadastrado<br>';
-            echo  '<a href="index.html">Voltar</a>';
-            return;
-        }
-    }
-}
-
-if ($name === '') {
-    $errors[] = 'Nome é obrigatório.';
-}
-if ($phone === '') {
-    $errors[] = 'Telefone é obrigatório.';
-}
+$errors = verifyInputs($name, $email, $phone);
 
 if (count($errors) > 0) {
     echo '<h1>Bad Request</h1>';
