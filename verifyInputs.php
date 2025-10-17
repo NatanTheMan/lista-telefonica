@@ -3,6 +3,7 @@
 function verifyInputs(string $name, string $email, string $phone): array
 {
     $errors = [];
+
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $errors[] = 'E-mail inválido.';
     } else {
@@ -14,11 +15,15 @@ function verifyInputs(string $name, string $email, string $phone): array
             }
         }
     }
+
     if ($name === '') {
         $errors[] = 'Nome é obrigatório.';
     }
+
     if ($phone === '') {
         $errors[] = 'Telefone é obrigatório.';
+    } elseif (strlen($phone) < 11) {
+        $errors[] = 'Número de telefone inválido.';
     }
 
     return $errors;
