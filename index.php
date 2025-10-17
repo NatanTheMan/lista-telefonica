@@ -17,21 +17,22 @@ $phone = filter_input(INPUT_POST, 'phone', FILTER_SANITIZE_NUMBER_INT);
 
 $errors = [];
 
-if ($email === '') {
-    $errors[] = 'E-mail é obrigatório.';
-}
-foreach ($_SESSION['phone_book'] as $i) {
-    if ($email === $i['email']) {
-        echo  'E-mail já cadastrado<br>';
-        echo  '<a href="index.html">Voltar</a>';
-        return;
+if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    $errors[] = 'E-mail inválido.';
+} else {
+    foreach ($_SESSION['phone_book'] as $i) {
+        if ($email === $i['email']) {
+            echo  'E-mail já cadastrado<br>';
+            echo  '<a href="index.html">Voltar</a>';
+            return;
+        }
     }
 }
 
 if ($name === '') {
     $errors[] = 'Nome é obrigatório.';
 }
-if ($phone === 0) {
+if ($phone === '') {
     $errors[] = 'Telefone é obrigatório.';
 }
 
