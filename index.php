@@ -36,4 +36,5 @@ if (count($errors) > 0) {
         echo '<br>';
     }
     echo '</ul>';
+    echo  '<a href="index.html">Voltar</a>';
 }
